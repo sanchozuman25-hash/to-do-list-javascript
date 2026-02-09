@@ -1,7 +1,6 @@
 import TrashIcon from "./trash-icon";
 
 export default function ToDo({text, deleteTodo, setIsChecked, isChecked}: {text: string, deleteTodo: () => void, setIsChecked: () => void, isChecked: boolean}) {
-  console.log(text, isChecked)
   return (
     <li className="checkbox">
       <input type="checkbox" onChange={setIsChecked} checked={isChecked}/>
