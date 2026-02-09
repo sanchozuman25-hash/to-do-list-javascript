@@ -2,21 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
-import ToDo from "./components/todo";
 import "./page.css";
 import ToDoList from "./components/todo-list";
-
+import { type ToDo } from "./types";
+import PieChartWithCustomizedLabel from "./components/chart";
  
-type ToDo = { 
-  text: string
-  id: string
-}
+
 
 export default function Home() {
   const defaultToDoList: ToDo[] = [
-    { text: "Iniciar sesión en GitHub", id: uuid() },
-    { text: "Hacer ejercicio", id: uuid() },
-    { text: "Subir repositorio", id: uuid() },
+    { text: "Iniciar sesión en GitHub", id: uuid(), checked: false },
+    { text: "Hacer ejercicio", id: uuid(), checked: false },
+    { text: "Subir repositorio", id: uuid(), checked: false },
   ];
 
   const [toDoList, setToDoList] = useState<ToDo[]>(defaultToDoList)
@@ -47,7 +44,7 @@ export default function Home() {
     event.preventDefault()
 
     if(inputText === "") return
-    setToDoList([...toDoList, {text: inputText, id: uuid()}]);
+    setToDoList([...toDoList, {text: inputText, id: uuid(), checked: false}]);
     setInputText("");
   }
 
@@ -57,6 +54,33 @@ export default function Home() {
     )
   }
 
+  function setIsChecked(id: string) {
+    setToDoList(actualTodoList => 
+      actualTodoList.map((todo) => 
+        todo.id === id 
+        ? {...todo, checked: !todo.checked} 
+        : todo
+      )
+    )
+  }
+
+  function transformToDoListToPieData(toDoList: ToDo[]) {
+    const data = [
+      {name: "is checked", value:0},
+      {name:"isn't checked",value:0}
+    ]
+    for(const todo of toDoList) {
+      if(todo.checked) {
+        data[0].value += 1
+      } else {
+        data[1].value += 1
+      }
+    }
+    return data
+  }
+
+  const pieData = transformToDoListToPieData(toDoList)
+
   return (
     <section className="container">
       <h1 className="title">To Do List</h1>
@@ -64,8 +88,9 @@ export default function Home() {
         <input onChange={onChangeInput} type="text" value={inputText} />
         <button>+</button>
       </form>
-      <ToDoList toDoList={toDoList} deleteTodo={deleteTodo} />
+      <PieChartWithCustomizedLabel data={pieData}/>
+      <ToDoList toDoList={toDoList} deleteTodo={deleteTodo} setIsChecked={setIsChecked} />
     </section>   
-      );
+  );
 
 }
