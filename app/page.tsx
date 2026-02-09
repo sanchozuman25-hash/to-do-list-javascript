@@ -1,31 +1,75 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { v4 as uuid } from "uuid";
+import ToDo from "./components/todo";
+import "./page.css";
+ 
+type ToDo = { 
+  text: string
+  id: string
+}
 
 export default function Home() {
-  const [arrayToDoList, setArrayToDoList] = useState(["Iniciar sesión en GitHub", "Hacer ejercicio", "Subir respositorio"]);
-  let valorLeido
+  const defaultToDoList: ToDo[] = [
+    { text: "Iniciar sesión en GitHub", id: uuid() },
+    { text: "Hacer ejercicio", id: uuid() },
+    { text: "Subir repositorio", id: uuid() },
+  ];
 
-  function onChangeInput (event) {
+  const [toDoList, setToDoList] = useState<ToDo[]>(defaultToDoList)
+  const [inputText, setInputText] = useState("");
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("toDoList");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const id = window.setTimeout(() => setToDoList(parsed), 0);
+        return () => clearTimeout(id);
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("toDoList", JSON.stringify(toDoList))
+  }, [toDoList])
+
+
+  function onChangeInput (event: React.ChangeEvent<HTMLInputElement>) {
     console.log(event.target.value);
-    valorLeido = event.target.value
+    setInputText(event.target.value);
   }
 
-  function onClickButton () {
-    setArrayToDoList([...arrayToDoList, valorLeido])
+  function onSubmit (event) {
+    event.preventDefault()
+
+    if(inputText === "") return
+    setToDoList([...toDoList, {text: inputText, id: uuid()}]);
+    setInputText("");
+  }
+
+  function deleteTodo(id: string) {
+    setToDoList(actualTodoList => 
+      actualTodoList.filter((todo) => todo.id !== id)
+    )
   }
 
   return (
-    <div>
-      <h1>Lista de cosas que hacer</h1>
-      <input onChange={onChangeInput} type="text" />
-      <button onClick={onClickButton}>+</button>
+    <section className="container">
+      <h1 className="title">To Do List</h1>
+      <form onSubmit={onSubmit}>
+        <input onChange={onChangeInput} type="text" value={inputText} />
+        <button>+</button>
+      </form>
+      
 
-      {arrayToDoList.map((valor, index) => {
-        return <div className="Tick" key={index}><input type="checkbox" /><h1>{valor}</h1></div>
-      })
-      }
-    </div>
+      <ul className="todo-list">
+        {toDoList.map((todo) => {
+          return <ToDo key={todo.id} text={todo.text} deleteTodo={() => deleteTodo(todo.id)} />
+        })}
+      </ul>
+    </section>
   );
 
 }

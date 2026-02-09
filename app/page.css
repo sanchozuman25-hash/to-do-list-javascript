@@ -1,0 +1,86 @@
+.checkbox {
+  gap: 0.2rem;
+  display: flex;
+  width: 100%;
+  border: 1px solid #ccc;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.checkbox > * {
+  flex-shrink: 0;
+}
+
+.checkbox h1 {
+  flex: 1;
+  word-break: break-all;
+}
+
+.checkbox input {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.checkbox button {
+  width: 3rem;
+  color: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  transition: all 200ms;
+}
+
+.checkbox button:hover {
+  background-color: #888;
+}
+
+.checkbox input:checked + h1 {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  margin: 0 auto;
+}
+
+form {
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+form input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  flex: 1;
+}
+
+form button {
+  padding: 0.5rem 1rem;
+  border: none;
+  color: white;
+  border-radius: 0.5rem;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.container {
+  margin: 0 auto;
+  width: 60%;
+  max-width: 30rem;
+  min-width: 10rem;
+  padding: 0 1rem;
+}
