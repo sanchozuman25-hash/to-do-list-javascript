@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import ToDo from "./components/todo";
 import "./page.css";
+import ToDoList from "./components/todo-list";
+
  
 type ToDo = { 
   text: string
@@ -62,14 +64,8 @@ export default function Home() {
         <input onChange={onChangeInput} type="text" value={inputText} />
         <button>+</button>
       </form>
-      
-
-      <ul className="todo-list">
-        {toDoList.map((todo) => {
-          return <ToDo key={todo.id} text={todo.text} deleteTodo={() => deleteTodo(todo.id)} />
-        })}
-      </ul>
-    </section>
-  );
+      <ToDoList toDoList={toDoList} deleteTodo={deleteTodo} />
+    </section>   
+      );
 
 }
