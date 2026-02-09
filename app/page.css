@@ -78,6 +78,7 @@ form button {
 }
 
 .container {
+  position: relative;
   margin: 0 auto;
   width: 60%;
   max-width: 30rem;
