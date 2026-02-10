@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import Chart from '@/app/components/chart'
-import ToDoProvider from '@/app/components/todo-context';
+import ToDoProvider from '@/app/components/todo-context'
  
 const meta = {
   component: Chart,
