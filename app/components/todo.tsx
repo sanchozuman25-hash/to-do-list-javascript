@@ -4,7 +4,7 @@ export default function ToDo({text, deleteTodo, setIsChecked, isChecked}: {text:
   return (
     <li className="checkbox">
       <input type="checkbox" onChange={setIsChecked} checked={isChecked}/>
-      <h1>{text}</h1>
+      <h1 style={isChecked ? { textDecoration: "line-through", color: "#888" } : {}}>{text}</h1>
       <button onClick={deleteTodo}>
         <TrashIcon />
       </button>
