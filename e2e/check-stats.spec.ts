@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('pie chart and counts update', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('http://localhost:3000/');
 
   // add two todos
   await page.fill('input[type="text"]', 'First');
