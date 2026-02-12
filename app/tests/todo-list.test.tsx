@@ -31,5 +31,6 @@ describe("Todo List", () => {
   it("renders his children", () => {
     const todoItems = todoListElement.container.querySelectorAll("li");
     expect(todoItems).toHaveLength(todos.length);
+    expect(todoItems).toMatchSnapshot();
   })  
 })
